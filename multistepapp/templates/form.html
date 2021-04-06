@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+
+                    <div class="card-body">
+
+
+                      <form id="myForm" method="post" action="" action="#" class="number-tab-steps wizard-circle" method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}  
+                <table border="0" cellpadding="0" cellspacing="0">
+                  <h6>Step {{ wizard.steps.step1 }}</h6>
+
+                <!--  {{ wizard.management_form }} -->
+        
+                    <tbody>
+                      
+             {{ wizard.management_form }}
+              {% if wizard.form.forms %}
+                 {{ wizard.form.management_form }}
+            
+                          
+                          
+                            
+                         
+                            
+                            {% for form in wizard.form.forms %}
+                            <div id="test">
+                              {{ form | crispy }} 
+
+                            {% endfor %}
+                          {% else %}
+                          {{ wizard.form|crispy }} 
+                          
+                          
+                         {% endif %}
+                        </div>
+              
+
+                    </tbody>
+                </table>
+               
+          
+
+                        
+            
+            
+                       
+                      
+
+                          {% if wizard.steps.prev %}
+   
+
+<div class="btnsaction">
+  <button name="wizard_goto_step" type="submit" class="page-prev btn btn-default" value="{{ wizard.steps.prev }}" formnovalidate="formnovalidate">{% trans "Previous" %}</button>
+  {% endif %} 
+  <input type="submit" class="page-next btn btn-primary  sw-btn-next" value="{% trans "Next" %}"/>
+</div>
+
+   
+
+               
+
+                        </form>
+                    
+
+                    </div>
+{% endblock %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript" src="{% static 'assets/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#test').formset({
+            prefix: '{{ formset.prefix }}'
+        });
+    })
+</script>
+{% endblock javascripts %}
